@@ -29,7 +29,4 @@ Route::group(['middleware' => 'auth'], function() {
 });
 
 Route::resource('barang', 'BarangController')->except(['show']);
-Route::get('/peminjaman','PeminjamanController@index');
-Route::get('/peminjaman/tambah','PeminjamanController@tambah');
-Route::post('/peminjaman/store','PeminjamanController@store');
-Route::get('/pengembalian/{id}','PengembalianController@pengembalian');
+Route::resource('peminjaman', 'PeminjamanController');

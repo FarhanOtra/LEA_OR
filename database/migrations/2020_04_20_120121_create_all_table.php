@@ -32,13 +32,13 @@ class CreateAllTable extends Migration
 
         Schema::create('peminjaman', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('mahasiswa_id');
-            $table->unsignedBigInteger('barang_id');
+            $table->unsignedBigInteger('mahasiswa_id')->nullable();
+            $table->unsignedBigInteger('barang_id')->nullable();
             $table->integer('status_peminjaman');
             $table->timestamps();
 
-            $table->foreign('mahasiswa_id')->references('id')->on('mahasiswa');
-            $table->foreign('barang_id')->references('id')->on('barang');
+            $table->foreign('mahasiswa_id')->references('id')->on('mahasiswa')->onDelete('set null');
+            $table->foreign('barang_id')->references('id')->on('barang')->onDelete('set null');;
         });
     }
 

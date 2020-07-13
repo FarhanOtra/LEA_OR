@@ -3,8 +3,8 @@
 @section('breadcrumb')
     {!! cui()->breadcrumb([
         'Home' => route('home'),
-        'Barang' => route('barang.index'),
-        'Edit' => '#'
+        'Peminjaman' => route('peminjaman.index'),
+        'Tambah' => '#'
     ]) !!}
 @endsection
 
@@ -15,24 +15,24 @@
             <div class="col-md-10">
                     <div class="card">
 
-                        {{ html()->modelForm($barang,'PUT', route('barang.update', [$barang->id]))->acceptsFiles()->open() }}
+                        {{ html()->form('POST', route('peminjaman.store'))->acceptsFiles()->open() }}
 
                         {{-- CARD HEADER--}}
                         <div class="card-header">
-                          <strong> <i class="cil-zoom"></i> Edit Barang</strong>
+                          <strong> <i class="cil-people"></i> Pinjam Barang</strong>
                         </div>
 
                         {{-- CARD BODY--}}
                         <div class="card-body">
-                            @include('barang._formedit')
+                            @include('peminjaman._form')
                         </div>
 
                         {{--CARD FOOTER--}}
                         <div class="card-footer">
-                            <input type="submit" class="btn btn-primary" value="Ubah"/>
+                            <input type="submit" value="Simpan" class="btn btn-primary"/>
                         </div>
 
-                        {{ html()->closeModelForm() }}
+                        {{ html()->form()->close() }}
                     </div>
                 </div>
 

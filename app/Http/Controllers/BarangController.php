@@ -45,13 +45,16 @@ class BarangController extends Controller
     {
         $request->validate(
             ['id_barang' => 'required|unique:barang,id_barang,'.$id,
-            'nama_barang' => 'required'
+            'nama_barang' => 'required',
+            'status_barang' => 'required'
             ],
         Barang::$validation_message);
 
         Barang::where('id',$id)->UPDATE([
             'id_barang' => $request->id_barang,
-            'nama_barang' => $request->nama_barang
+            'nama_barang' => $request->nama_barang,
+            'status_barang' => $request->status_barang,
+            'keterangan' => $request->keterangan
         ]);
 
         notify('success', 'Berhasil Merubah Barang');

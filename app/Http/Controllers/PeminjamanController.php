@@ -4,66 +4,57 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Mahasiswa;
-use App\Barang;
-use App\Peminjaman;
+use App\Models\Mahasiswa;
+use App\Models\Barang;
+use App\Models\Peminjaman;
 use Illuminate\Support\Facades\DB;
 
 class PeminjamanController extends Controller
 {
 
-    
     public function index()
     {
-        $peminjaman = DB::table('peminjaman')
-        ->join('mahasiswa', 'mahasiswa.nim', '=', 'peminjaman.nim')
-        ->join('barang', 'barang.id_barang', '=', 'peminjaman.id_barang')
-        ->get();
+        $peminjaman = Peminjaman::all();
 
-        return view('peminjaman',['peminjaman' => $peminjaman]);
+        return view('peminjaman.index',['peminjaman' => $peminjaman]);
     }
     
-    public function tambah()
+    public function create()
     {
-        $barang = Barang::where('status_barang',1)->get();
-        $mahasiswa = Mahasiswa::get();
-
-        return view('peminjamanbaru',['barang' => $barang],['mahasiswa' => $mahasiswa]);
+        $mahasiswa = Mahasiswa::pluck('nim','id');
+        $barang = Barang::where('status_barang',1)->pluck('nama_barang','id');
+        return view('peminjaman.create',['mahasiswa' => $mahasiswa,'barang' => $barang]);
     }
 
     public function store(Request $request)
     {
-        $check = Mahasiswa::where('nim',$request->nim)->count();
-        $mahasiswa = Mahasiswa::where('nim',$request->nim)->first();
+        $check = Mahasiswa::where('id',$request->mahasiswa_id)->count();
+        $mahasiswa = Mahasiswa::where('id',$request->mahasiswa_id)->first();
 
-        if($check > 0)
-        {
             if($mahasiswa->status_mahasiswa == 1)
             {
                 $peminjaman = new Peminjaman;
-                $peminjaman->nim = $request->nim;
-                $peminjaman->id_barang = $request->id_barang;
+                $peminjaman->mahasiswa_id = $request->mahasiswa_id;
+                $peminjaman->barang_id = $request->barang_id;
                 $peminjaman->status_peminjaman = 1;
                 $peminjaman->save();
 
-                Barang::where('id_barang',$request->id_barang)->update(['status_barang' => 2]);
-                Mahasiswa::where('nim',$request->nim)->update(['status_mahasiswa' => 2]);
+                Barang::where('id',$request->barang_id)->update(['status_barang' => 2]);
+                Mahasiswa::where('id',$request->mahasiswa_id)->update(['status_mahasiswa' => 2]);
 
-                return redirect('/peminjaman')->with('status','Data Barang Berhasil Ditambahkan');
+                notify('success', 'Berhasil Meminjam Barang');
+                return redirect()->route('peminjaman.index');
             }
             elseif($mahasiswa->status_mahasiswa == 2)
             {
-                return redirect('/peminjaman/tambah')->with('error','NIM Belum Mengembalikan Barang');
+                notify('error', 'Belum Mengembalikan Barang');
+                return redirect()->route('peminjaman.create');
             }
             elseif($mahasiswa->status_mahasiswa == 3)
             {
-                return redirect('/peminjaman/tambah')->with('error','NIM Diblokir');  
+                notify('error', 'NIM di Banned');
+                return redirect()->route('peminjaman.create');;  
             }
-        }
-        else
-        {
-            return redirect('/peminjaman/tambah')->with('error','Masukkan NIM dengan Benar');
-        }
     }
 
     public function show($id)

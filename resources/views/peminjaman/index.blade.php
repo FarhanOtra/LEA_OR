@@ -3,12 +3,12 @@
 @section('breadcrumb')
     {!! cui()->breadcrumb([
         'Home' => route('home'),
-        'Barang' => '#'
+        'Peminjaman' => '#'
     ]) !!}
 @endsection
 
 @section('toolbar')
-    {!! cui()->toolbar_btn(route('barang.create'), 'cil-address-book', 'Tambah Barang') !!}    
+    {!! cui()->toolbar_btn(route('peminjaman.create'), 'cil-address-book', 'Pinjam Barang') !!}    
 @endsection
 
 @section('content')
@@ -18,7 +18,7 @@
 
                 {{-- CARD HEADER--}}
                 <div class="card-header">
-                    <strong><i class="cil-list"></i> List Barang</strong>
+                    <strong><i class="cil-list"></i> List Peminjaman Barang</strong>
                 </div>
 
                 {{-- CARD BODY--}}
@@ -27,23 +27,21 @@
                     <table class="{{ config('style.table') }}">
                         <thead class="{{ config('style.thead') }}">
                         <tr>
-                            <th class="text-center">ID Barang</th>
-                            <th class="text-center">Nama Barang</th>
-                            <th class="text-center">Status</th>
-                            <th class="text-center">Keterangan</th>
+                            <th class="text-center">NIM</th>
+                            <th class="text-center">Nama</th>
+                            <th class="text-center">Tanggal Pinjam</th>
                             <th class="text-center">Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse($barang as $b)
+                        @forelse($peminjaman as $p)
                             <tr>
-                                <td class="text-center">{{ $b->id_barang }}</td>
-                                <td class="text-center">{{ $b->nama_barang }}</td>
-                                <td class="text-center"><h4>{!! $b->status_text !!}</h4></td>
-                                <td class="text-center">{{ $b->keterangan }}</td>
+                                <td class="text-center">{{ $p->mahasiswa->nim }}</td>
+                                <td class="text-center">{{ $p->mahasiswa->nama_mahasiswa }}</td>
+                                <td class="text-center">{{ $p->created_at }}</td>
                                 <td class="text-center">
-                                    {!! cui()->btn_edit(route('barang.edit', [$b->id])) !!}
-                                    {!! cui()->btn_delete(route('barang.destroy', [$b->id]),'Yakin Ingin Menghapus?') !!}
+                                    {!! cui()->btn_edit(route('barang.edit', [$p->id])) !!}
+                                    {!! cui()->btn_delete(route('barang.destroy', [$p->id]),'Yakin Ingin Menghapus?') !!}
                                 </td>
                             </tr>
                         @empty

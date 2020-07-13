@@ -24,7 +24,7 @@
 
                         {{-- CARD BODY--}}
                         <div class="card-body">
-                            @include('barang._formedit')
+                            @include('barang._form')
                         </div>
 
                         {{--CARD FOOTER--}}
