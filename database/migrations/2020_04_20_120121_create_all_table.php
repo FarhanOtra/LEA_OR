@@ -33,11 +33,20 @@ class CreateAllTable extends Migration
         Schema::create('peminjaman', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('mahasiswa_id')->nullable();
-            $table->unsignedBigInteger('barang_id')->nullable();
+            $table->date('date');
             $table->integer('status_peminjaman');
             $table->timestamps();
 
             $table->foreign('mahasiswa_id')->references('id')->on('mahasiswa')->onDelete('set null');
+        });
+
+        Schema::create('detail_peminjaman', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('peminjaman_id')->nullable();
+            $table->unsignedBigInteger('barang_id')->nullable();
+            $table->timestamps();
+
+            $table->foreign('peminjaman_id')->references('id')->on('peminjaman')->onDelete('set null');
             $table->foreign('barang_id')->references('id')->on('barang')->onDelete('set null');;
         });
     }
@@ -51,5 +60,7 @@ class CreateAllTable extends Migration
     {
         Schema::dropIfExists('barang');
         Schema::dropIfExists('mahasiswa');
+        Schema::dropIfExists('peminjaman');
+        Schema::dropIfExists('detail_peminjaman');
     }
 }

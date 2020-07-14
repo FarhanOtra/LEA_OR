@@ -17,4 +17,5 @@ class Peminjaman extends Model
     {
         return $this->hasOne(Mahasiswa::class,'id','mahasiswa_id');
     }
+
 }

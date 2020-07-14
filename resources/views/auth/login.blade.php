@@ -12,17 +12,17 @@
         <div class="col-md-8">
             <div class="card-group">
 
-                <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
+                <div class="card text-white bg-white py-5 d-md-down-none" style="width:44%">
                     <div class="card-body text-center">
                         <div>
                         <!-- <h2>{{ config('app.name') }}</h2> -->
-                            <img src="{{ asset('/img/logo-unand.png')}}" alt="" width="50%"/>
+                            <img src="{{ asset('/img/logo-lea.png')}}" alt="" width="80%"/>
                         </div>
                     </div>
                 </div>
 
 
-                <div class="card p-4">
+                <div class="card p-4 text-white bg-info">
                     <div class="card-body">
                         <h1>Login</h1>
 

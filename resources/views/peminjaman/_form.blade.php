@@ -7,12 +7,28 @@
     @enderror
 </div>
 
-<!-- Input (Select) Barang -->
+<!-- Date Text Field Input -->
+<div class="form-group">
+    <label class="form-label" for="date">Date</label>
+    {{ html()->date('date')->class(["form-control", "is-invalid" => $errors->has('date')])->id('date')->placeholder('Date') }}
+    @error('date')
+    <div class="invalid-feedback">{{ $errors->first('date') }}</div>
+    @enderror
+</div>
+
 <div class="form-group">
     <label class="form-label" for="barang_id">Barang</label>
-    {{ html()->select('barang_id')->options($barang)->class(["form-control", "is-invalid" => $errors->has('barang_id')])->id('barang_id')->placeholder('Nama') }}
-    @error('barang_id')
-    <div class="invalid-feedback">{{ $errors->first('barang_id') }}</div>
-    @enderror
+    <table class="table">
+    @foreach($barang as $b)
+    <tr>
+        <td>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="barang_{{$b->nama_barang}}" name="barang[{{$b->nama_barang}}]" value="{{ $b->id }}">
+                <label class="custom-control-label" for="barang_{{$b->nama_barang}}">{{ $b->id_barang }} - {{ $b->nama_barang}}</label>
+            </div>
+        </td>
+    </tr>
+    @endforeach
+    </table>
 </div>
 

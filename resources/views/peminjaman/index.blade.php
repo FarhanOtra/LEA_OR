@@ -38,10 +38,9 @@
                             <tr>
                                 <td class="text-center">{{ $p->mahasiswa->nim }}</td>
                                 <td class="text-center">{{ $p->mahasiswa->nama_mahasiswa }}</td>
-                                <td class="text-center">{{ $p->created_at }}</td>
+                                <td class="text-center">{{ $p->date }}</td>
                                 <td class="text-center">
-                                    {!! cui()->btn_edit(route('barang.edit', [$p->id])) !!}
-                                    {!! cui()->btn_delete(route('barang.destroy', [$p->id]),'Yakin Ingin Menghapus?') !!}
+                                    {!! cui()->btn_view(route('peminjaman.show', [$p->id])) !!}
                                 </td>
                             </tr>
                         @empty
