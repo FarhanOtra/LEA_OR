@@ -9,26 +9,41 @@
 
 <!-- Date Text Field Input -->
 <div class="form-group">
-    <label class="form-label" for="date">Date</label>
-    {{ html()->date('date')->class(["form-control", "is-invalid" => $errors->has('date')])->id('date')->placeholder('Date') }}
-    @error('date')
-    <div class="invalid-feedback">{{ $errors->first('date') }}</div>
+    <label class="form-label" for="date">Tanggal Pinjam</label>
+    {{ html()->date('tanggal_pinjam')->class(["form-control", "is-invalid" => $errors->has('tanggal_pinjam')])->id('tanggal_pinjam')->placeholder('Tanggal Pinjam') }}
+    @error('tanggal_pinjam')
+    <div class="invalid-feedback">{{ $errors->first('tanggal_pinjam') }}</div>
+    @enderror
+</div>
+
+<!-- Date Text Field Input -->
+<div class="form-group">
+    <label class="form-label" for="date">Tanggal Kembali</label>
+    {{ html()->date('tanggal_kembali')->class(["form-control", "is-invalid" => $errors->has('tanggal_kembali')])->id('tanggal_kembali')->placeholder('Tanggal Kembali') }}
+    @error('tanggal_kembali')
+    <div class="invalid-feedback">{{ $errors->first('tanggal_kembali') }}</div>
     @enderror
 </div>
 
 <div class="form-group">
     <label class="form-label" for="barang_id">Barang</label>
     <table class="table">
-    @foreach($barang as $b)
+    @forelse($barang as $b)
     <tr>
         <td>
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="barang_{{$b->nama_barang}}" name="barang[{{$b->nama_barang}}]" value="{{ $b->id }}">
-                <label class="custom-control-label" for="barang_{{$b->nama_barang}}">{{ $b->id_barang }} - {{ $b->nama_barang}}</label>
+                <input type="checkbox" class="custom-control-input" id="barang_{{$b->id_barang}}" name="barang[{{$b->id_barang}}]" value="{{ $b->id }}">
+                <label class="custom-control-label" for="barang_{{$b->id_barang}}">{{ $b->id_barang }} - {{ $b->nama_barang}}</label>
             </div>
         </td>
     </tr>
-    @endforeach
+    @empty
+    <tr>
+        <td>
+            <h6 class="text-left">Tidak ada Barang</h6>
+        </td>
+    </tr>
+    @endforelse
     </table>
 </div>
 

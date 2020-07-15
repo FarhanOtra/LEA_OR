@@ -29,7 +29,7 @@
 
                         {{--CARD FOOTER--}}
                         <div class="card-footer">
-                            <input type="submit" value="Simpan" class="btn btn-primary"/>
+                            <input type="submit" value="Pinjam" class="btn btn-primary"/>
                         </div>
 
                         {{ html()->form()->close() }}

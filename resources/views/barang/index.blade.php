@@ -27,6 +27,7 @@
                     <table class="{{ config('style.table') }}">
                         <thead class="{{ config('style.thead') }}">
                         <tr>
+                            <th class="text-center">No.</th>
                             <th class="text-center">ID Barang</th>
                             <th class="text-center">Nama Barang</th>
                             <th class="text-center">Status</th>
@@ -37,9 +38,10 @@
                         <tbody>
                         @forelse($barang as $b)
                             <tr>
+                                <td class="text-center">{{ $loop->iteration }}</td>
                                 <td class="text-center">{{ $b->id_barang }}</td>
                                 <td class="text-center">{{ $b->nama_barang }}</td>
-                                <td class="text-center"><h4>{!! $b->status_text !!}</h4></td>
+                                <td class="text-center"><h5>{!! $b->status_text !!}</h5></td>
                                 <td class="text-center">{{ $b->keterangan }}</td>
                                 <td class="text-center">
                                     {!! cui()->btn_edit(route('barang.edit', [$b->id])) !!}

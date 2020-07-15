@@ -15,34 +15,40 @@ class PeminjamanController extends Controller
 
     public function index()
     {
-        $peminjaman = Peminjaman::all();
+        $peminjaman = Peminjaman::orderBy('tanggal_pinjam','asc')->get();
         return view('peminjaman.index',['peminjaman' => $peminjaman]);
     }
     
     public function create()
     {
         $mahasiswa = Mahasiswa::pluck('nim','id');
-        $barang = Barang::where('status_barang',1)->get();
+        $barang = Barang::where('status_barang',1)->orderBy('id_barang','asc')->get();
         return view('peminjaman.create',['mahasiswa' => $mahasiswa,'barang' => $barang]);
     }
 
     public function store(Request $request)
     {
-        $check = Mahasiswa::where('id',$request->mahasiswa_id)->count();
+        $request->validate(Peminjaman::$validation_rules,Peminjaman::$validation_message);
+
         $mahasiswa = Mahasiswa::where('id',$request->mahasiswa_id)->first();
 
+        if(!empty($request->barang)){
             if($mahasiswa->status_mahasiswa == 1)
             {
                 $peminjaman = new Peminjaman;
                 $peminjaman->mahasiswa_id = $request->mahasiswa_id;
-                $peminjaman->date = $request->date;
+                $peminjaman->tanggal_pinjam = $request->tanggal_pinjam;
+                $peminjaman->tanggal_kembali = $request->tanggal_kembali;
                 $peminjaman->status_peminjaman = 1;
                 $peminjaman->save();
 
                 Mahasiswa::where('id',$request->mahasiswa_id)->update(['status_mahasiswa' => 2]);
+                $peminjaman_id = Peminjaman::latest('id')->first()->id;
                 foreach($request->barang as $barang){
                     $detail_peminjaman = new detail_peminjaman;
+                    $detail_peminjaman->peminjaman_id = $peminjaman_id;
                     $detail_peminjaman->barang_id = $barang;
+                    $detail_peminjaman->status = 1;
                     $detail_peminjaman->save();
                     Barang::where('id',$barang)->update(['status_barang' => 2]);
                 };
@@ -57,9 +63,13 @@ class PeminjamanController extends Controller
             }
             elseif($mahasiswa->status_mahasiswa == 3)
             {
-                notify('error', 'NIM di Banned');
-                return redirect()->route('peminjaman.create');;  
+                notify('error', 'NIM di Blacklist');
+                return redirect()->route('peminjaman.create');
             }
+        }else{
+            notify('error', 'Pilih Minimal 1 Barang');
+            return redirect()->route('peminjaman.create');
+        }    
     }
 
     public function show($id)

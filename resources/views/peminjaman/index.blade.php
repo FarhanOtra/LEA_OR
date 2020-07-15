@@ -27,18 +27,24 @@
                     <table class="{{ config('style.table') }}">
                         <thead class="{{ config('style.thead') }}">
                         <tr>
+                            <th class="text-center">No.</th>
+                            <th class="text-center">Tanggal Pinjam</th>
+                            <th class="text-center">Tanggal Kembali</th>
                             <th class="text-center">NIM</th>
                             <th class="text-center">Nama</th>
-                            <th class="text-center">Tanggal Pinjam</th>
+                            <th class="text-center">Status Pengembalian</th>
                             <th class="text-center">Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         @forelse($peminjaman as $p)
                             <tr>
+                                <td class="text-center">{{ $loop->iteration }}</td>
+                                <td class="text-center">{{ $p->tanggal_pinjam }}</td>
+                                <td class="text-center">{{ $p->tanggal_kembali }}</td>
                                 <td class="text-center">{{ $p->mahasiswa->nim }}</td>
                                 <td class="text-center">{{ $p->mahasiswa->nama_mahasiswa }}</td>
-                                <td class="text-center">{{ $p->date }}</td>
+                                <td class="text-center"><h5>{!! $p->status_text !!}</h5></td>
                                 <td class="text-center">
                                     {!! cui()->btn_view(route('peminjaman.show', [$p->id])) !!}
                                 </td>

@@ -33,7 +33,8 @@ class CreateAllTable extends Migration
         Schema::create('peminjaman', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('mahasiswa_id')->nullable();
-            $table->date('date');
+            $table->date('tanggal_pinjam');
+            $table->date('tanggal_kembali');
             $table->integer('status_peminjaman');
             $table->timestamps();
 
@@ -44,6 +45,7 @@ class CreateAllTable extends Migration
             $table->id();
             $table->unsignedBigInteger('peminjaman_id')->nullable();
             $table->unsignedBigInteger('barang_id')->nullable();
+            $table->integer('status');
             $table->timestamps();
 
             $table->foreign('peminjaman_id')->references('id')->on('peminjaman')->onDelete('set null');

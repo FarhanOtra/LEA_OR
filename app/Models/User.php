@@ -30,4 +30,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserLogin::class, 'user_id', 'id');
     }
+
+    public function getAvatarUrlAttribute($value)
+    {
+        if (!empty($this->avatar)) {
+            return Storage::url(config('central.path.avatar') . '/' . $this->avatar);
+        }
+        return 'img/default-user.png';
+    }
 };

@@ -10,32 +10,20 @@
     <div>{{ $peminjaman->mahasiswa->nama_mahasiswa }}</div>
 </div>
 
-<!-- Static Field for Tanggal -->
+<!-- Static Field for Tanggal Pinjam -->
 <div class="form-group">
-    <div class="form-label">Tanggal</div>
-    <div>{{ $peminjaman->date }}</div>
+    <div class="form-label">Tanggal Pinjam</div>
+    <div>{{ $peminjaman->tanggal_pinjam }}</div>
 </div>
 
-<!-- Static Field for Notes -->
+<!-- Static Field for Tanggal Kembali -->
 <div class="form-group">
-    <div class="form-label">List Barang</div>
-    <br>
-    <div class="col-5">
-    <table class="table table-outline table-responsive-sm table-hover">
-        <thead class="{{ config('style.thead') }}">
-            <tr>
-                <th class="text-center">ID Barang</th>
-                <th class="text-center">Nama Barang</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach($detailpeminjaman as $detail)
-            <tr>
-                <td class="text-center">{{ $detail->barang->id_barang }}</td>
-                <td class="text-center">{{ $detail->barang->nama_barang }}</td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>  
-    </div>  
+    <div class="form-label">Tanggal Kembali</div>
+    <div>{{ $peminjaman->tanggal_kembali }}</div>
+</div>
+
+<!-- Static Field for Tanggal -->
+<div class="form-group">
+    <div class="form-label">Status Pengembalian</div>
+    <div><h5>{!! $peminjaman->status_text !!}</h5></div>
 </div>
