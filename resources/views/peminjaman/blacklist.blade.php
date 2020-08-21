@@ -3,23 +3,19 @@
 @section('breadcrumb')
     {!! cui()->breadcrumb([
         'Home' => route('home'),
-        'Peminjaman' => '#'
+        'Peminjaman' => route('peminjaman.index'),
+        'Blacklist' => '#',
     ]) !!}
 @endsection
 
-@section('toolbar')
-    {!! cui()->toolbar_btn(route('peminjaman.create'), 'cil-address-book', 'Pinjam Barang') !!}    
-    {!! cui()->toolbar_btn(route('peminjaman.blacklist'), 'cil-ban', 'Blacklist') !!}    
-@endsection
-
 @section('content')
-<div class="row justify-content-center">
-        <div class="col">
+<div class="row ">
+        <div class="col-8">
             <div class="card">
 
                 {{-- CARD HEADER--}}
                 <div class="card-header">
-                    <strong><i class="cil-list"></i> List Peminjaman Barang</strong>
+                    <strong><i class="cil-ban"></i> List Blacklist</strong>
                 </div>
 
                 {{-- CARD BODY--}}
@@ -29,31 +25,25 @@
                         <thead class="{{ config('style.thead') }}">
                         <tr>
                             <th class="text-center">No.</th>
-                            <th class="text-center">Tanggal Pinjam</th>
-                            <th class="text-center">Tanggal Kembali</th>
                             <th class="text-center">NIM</th>
                             <th class="text-center">Nama</th>
-                            <th class="text-center">Status Pengembalian</th>
                             <th class="text-center">Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse($peminjaman as $p)
+                        @forelse($mahasiswa as $m)
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
-                                <td class="text-center">{{ $p->tanggal_pinjam }}</td>
-                                <td class="text-center">{{ $p->tanggal_kembali }}</td>
-                                <td class="text-center">{{ $p->mahasiswa->nim }}</td>
-                                <td class="text-center">{{ $p->mahasiswa->nama_mahasiswa }}</td>
-                                <td class="text-center"><h5>{!! $p->status_text !!}</h5></td>
+                                <td class="text-center">{{ $m->nim }}</td>
+                                <td class="text-center">{{ $m->nama_mahasiswa }}</td>
                                 <td class="text-center">
-                                    {!! cui()->btn_view(route('peminjaman.show', [$p->id])) !!}
+                                    <a class="btn btn-danger" onclick="return confirm('Hapus dari Blacklist?')" href="{{route('peminjaman.unblacklist', $m->id)}}"><i class="cil-trash"></i></a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7">
-                                    <h6 class="text-center">Tidak ada Barang</h6>
+                                <td colspan="5">
+                                    <h6 class="text-center">Tidak ada Blacklist</h6>
                                 </td>
                             </tr>
                         @endforelse

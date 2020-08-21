@@ -8,6 +8,7 @@
                 <th class="text-center">ID Barang</th>
                 <th class="text-center">Nama Barang</th>
                 <th class="text-center">Status Pengembalian</th>
+                <th class="text-center">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -17,6 +18,14 @@
                 <td class="text-center">{{ $detail->barang->id_barang }}</td>
                 <td class="text-center">{{ $detail->barang->nama_barang }}</td>
                 <td class="text-center">{!! $detail->status_text !!}</td>
+                @if($detail->status == 1)
+                <td class="text-center">
+                    {!! cui()->btn(route('peminjaman.return', [$peminjaman, $detail->id]),'cil-check-circle',' Kembalikan') !!}
+                </td>
+                @else
+                    <td class="text-center"><i class="cil-check-circle"></i></td>
+                @endif
+                
             </tr>
         @endforeach
         </tbody>

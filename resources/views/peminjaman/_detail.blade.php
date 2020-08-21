@@ -1,3 +1,9 @@
+<!-- Static Field for Tanggal -->
+<div class="form-group">
+    <div class="form-label">Status Pengembalian</div>
+    <div><h5>{!! $peminjaman->status_text !!}</h5></div>
+</div>
+
 <!-- Static Field for NIM -->
 <div class="form-group">
     <div class="form-label">NIM</div>
@@ -20,10 +26,4 @@
 <div class="form-group">
     <div class="form-label">Tanggal Kembali</div>
     <div>{{ $peminjaman->tanggal_kembali }}</div>
-</div>
-
-<!-- Static Field for Tanggal -->
-<div class="form-group">
-    <div class="form-label">Status Pengembalian</div>
-    <div><h5>{!! $peminjaman->status_text !!}</h5></div>
 </div>

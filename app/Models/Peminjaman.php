@@ -21,7 +21,7 @@ class Peminjaman extends Model
     public function getStatusTextAttribute($value){
         switch ($this->status_peminjaman){
             case self::STATUS_SUDAH:
-                return "<span class=\"badge badge-success\">Sudah</span>";
+                return "<span class=\"badge badge-success\">Selesai</span>";
                 break;
             case self::STATUS_BELUM:
                 return "<span class=\"badge badge-warning\">Belum</span>";

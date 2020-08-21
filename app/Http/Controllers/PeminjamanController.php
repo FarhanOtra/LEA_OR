@@ -84,13 +84,83 @@ class PeminjamanController extends Controller
         //
     }
 
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
     }
 
-    public function destroy($id)
+    public function return($peminjaman,$id)
     {
-        //
+        //Check Tanggal
+        $date = date('Y-m-d');
+
+        $tanggal = Peminjaman::where('id',$peminjaman)->first();
+        if($date <= $tanggal->tanggal_kembali){
+            $checktanggal = true;
+        }else{
+            $checktanggal = false;
+        }
+
+        $mahasiswa = Peminjaman::where('id',$peminjaman)->first();
+        $barang = Detail_Peminjaman::where('id',$id)->first();
+
+        if($checktanggal == true){
+            Detail_Peminjaman::where('id',$id)->UPDATE([
+                'status' => 2,
+                'tanggal_kembali' => $date,
+            ]);
+
+            Mahasiswa::where('id',$mahasiswa->mahasiswa_id)->UPDATE([
+                'status_mahasiswa' => 1,
+            ]);
+            
+            Barang::where('id',$barang->barang_id)->UPDATE([
+                'status_barang' => 1,
+            ]);
+
+        }else{
+            Detail_Peminjaman::where('id',$id)->UPDATE([
+                'status' => 3,
+                'tanggal_kembali' => $date,
+            ]);
+
+            Mahasiswa::where('id',$mahasiswa->mahasiswa_id)->UPDATE([
+                'status_mahasiswa' => 3,
+            ]);
+
+            Barang::where('id',$barang->barang_id)->UPDATE([
+                'status_barang' => 1,
+            ]);
+        }
+
+        //Check Semua Pengembalian
+        $check1 = Detail_Peminjaman::where('peminjaman_id',$peminjaman)->where('status','1')->count();
+        $check2 = Detail_Peminjaman::where('peminjaman_id',$peminjaman)->where('status','3')->count();
+        if($check1 == 0 && $check2 == 0){
+            Peminjaman::where('id',$peminjaman)->UPDATE([
+                'status_peminjaman' => 2,
+            ]);
+        }elseif($check2 > 0 ){
+            Peminjaman::where('id',$peminjaman)->UPDATE([
+                'status_peminjaman' => 3,
+            ]);
+        }
+
+        return redirect()->route('peminjaman.show', $peminjaman);
+    }
+
+    public function blacklist()
+    {
+        $mahasiswa = Mahasiswa::where('status_mahasiswa',3)->get();
+        return view('peminjaman.blacklist',['mahasiswa' => $mahasiswa]);
+    }
+
+    public function unblacklist($id)
+    {
+        Mahasiswa::where('id',$id)->UPDATE([
+            'status_mahasiswa' => 1,
+        ]);;
+        notify('success', 'Mahasiswa Berhasil di Hapus dari Blacklist');
+        return redirect()->route('peminjaman.blacklist');
     }
 }

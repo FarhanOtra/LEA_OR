@@ -30,8 +30,8 @@
                             <th class="text-center">No.</th>
                             <th class="text-center">ID Barang</th>
                             <th class="text-center">Nama Barang</th>
-                            <th class="text-center">Status</th>
                             <th class="text-center">Keterangan</th>
+                            <th class="text-center">Status</th>
                             <th class="text-center">Action</th>
                         </tr>
                         </thead>
@@ -41,8 +41,8 @@
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td class="text-center">{{ $b->id_barang }}</td>
                                 <td class="text-center">{{ $b->nama_barang }}</td>
-                                <td class="text-center"><h5>{!! $b->status_text !!}</h5></td>
                                 <td class="text-center">{{ $b->keterangan }}</td>
+                                <td class="text-center"><h5>{!! $b->status_text !!}</h5></td>
                                 <td class="text-center">
                                     {!! cui()->btn_edit(route('barang.edit', [$b->id])) !!}
                                     {!! cui()->btn_delete(route('barang.destroy', [$b->id]),'Yakin Ingin Menghapus?') !!}
@@ -50,7 +50,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5">
+                                <td colspan="6">
                                     <h6 class="text-center">Tidak ada Barang</h6>
                                 </td>
                             </tr>

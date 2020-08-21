@@ -46,6 +46,7 @@ class CreateAllTable extends Migration
             $table->unsignedBigInteger('peminjaman_id')->nullable();
             $table->unsignedBigInteger('barang_id')->nullable();
             $table->integer('status');
+            $table->date('tanggal_kembali')->nullable();
             $table->timestamps();
 
             $table->foreign('peminjaman_id')->references('id')->on('peminjaman')->onDelete('set null');

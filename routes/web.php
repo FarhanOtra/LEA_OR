@@ -30,3 +30,6 @@ Route::group(['middleware' => 'auth'], function() {
 
 Route::resource('barang', 'BarangController')->except(['show']);
 Route::resource('peminjaman', 'PeminjamanController');
+Route::get('peminjaman/{peminjaman}/{id}', 'PeminjamanController@return')->name('peminjaman.return');
+Route::get('blacklist/index', 'PeminjamanController@blacklist')->name('peminjaman.blacklist');
+Route::get('blacklist/unblacklist/{id}', 'PeminjamanController@unblacklist')->name('peminjaman.unblacklist');
